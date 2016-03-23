@@ -1,0 +1,23 @@
+apply plugin: 'application'
+
+dependencies {
+    compile project(':core')
+
+    // jspPage
+    runtime "javax.servlet:jstl:1.2"
+
+}
+
+task copyLicense {
+    outputs.file new File("$buildDir/LICENSE")
+    doLast {
+        copy {
+            from "LICENSE"
+            into "$buildDir"
+        }
+    }
+}
+
+applicationDistribution.from(copyLicense) {
+    into ""
+}

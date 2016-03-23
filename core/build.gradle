@@ -1,0 +1,31 @@
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'idea'
+apply plugin: 'base'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-cargo-plugin:0.6.1'
+    }
+}
+
+// 변수 설정
+war.archiveName='ROOT.war'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+repositories {   mavenCentral() }
+
+// 외부 파일 임포트
+apply from :'./gradle/cargo.gradle'
+apply from :'./gradle/lib.gradle'
+apply from :'./gradle/ideConfig.gradle'
+apply from :'./gradle/profile.gradle'
+
+
+
+
+ 
