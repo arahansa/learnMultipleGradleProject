@@ -1,0 +1,15 @@
+final String DEFAULT_PROFILE = 'dev'
+allprojects {
+    if (!project.hasProperty('profile') || !profile) {
+        ext.profile = DEFAULT_PROFILE
+    }
+    println "Server :: Setting profile is " + ext.profile
+    // 리소스에 각 프로필별 리소스 디렉토리 추가
+    sourceSets {
+        main {
+            resources {
+                srcDir "src/main/resources-${profile}"
+            }
+        }
+    }
+}

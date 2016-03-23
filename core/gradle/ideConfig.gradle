@@ -1,0 +1,32 @@
+//초기 경로 디렉터리 생성
+task initSrc << {
+    project.sourceSets*.allSource.srcDirTrees.flatten().dir.each { dir ->
+        dir.mkdirs()
+    }
+}
+
+/* Eclipse 관련 설정들 */
+tasks.eclipse.dependsOn cleanEclipse
+tasks.eclipse.dependsOn initSrc
+
+eclipse {
+    classpath {
+        downloadSources = true
+        defaultOutputDir = file("${buildDir}/classes/main")
+
+        file {
+            whenMerged { classpath ->
+                def entries = classpath.entries
+                entries.findAll { it.kind == 'lib' }*.exported = false
+            }
+        }
+    }
+    wtp{
+        facet {
+            facet name: 'jst.web', version: '3.1' // Servlet Spec Version 지정
+            facet name: 'jst.java', version: '1.8' // Java Version  1.8
+        }
+    }
+}
+
+tasks.idea.dependsOn initSrc

@@ -1,6 +1,6 @@
-.gradle/
 app/build/
 core/build/
-gradle/
 web/build/
 *.iml
+gradle/wrapper/
+.gradle/

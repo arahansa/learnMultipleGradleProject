@@ -1,0 +1,80 @@
+apply plugin: 'cargo'
+//외부 환경변수
+ext{
+    versions = [
+            jdk:'1.8',
+            spring:'4.2.5.RELEASE',
+            hibernate:'5.1.0.Final',
+            hibernateValidator:'5.2.4.Final',
+            springdatajpa:'1.9.4.RELEASE',
+            springsecurity:'4.0.4.RELEASE',
+            hikariCP: '2.4.4',
+            h2:'1.4.191',
+            mysqldriver:'5.1.38',
+            ehcacheCore:'2.6.11',
+            sitemesh:'3.0.1',
+            junit:'4.12',
+            logback:'1.1.6',
+            dbunit : '2.5.1',
+            springTestDbunit: '1.2.1',
+            lucy: '1.6.3',
+            aspectjweaver:'1.8.8',
+            lombok:'1.16.8'
+    ]
+}
+
+sourceCompatibility = versions.jdk
+targetCompatibility = versions.jdk
+
+// 의존성
+dependencies {
+    // spring
+    compile("org.springframework:spring-webmvc:${versions.spring}")
+    compile("org.springframework:spring-context:${versions.spring}")
+    compile("org.springframework:spring-context-support:${versions.spring}")
+
+    // spring security
+    compile "org.springframework.security:spring-security-core:${versions.springsecurity}"
+    compile "org.springframework.security:spring-security-config:${versions.springsecurity}"
+    compile "org.springframework.security:spring-security-taglibs:${versions.springsecurity}"
+    compile "org.springframework.security:spring-security-web:${versions.springsecurity}"
+    testCompile "org.springframework.security:spring-security-test:${versions.springsecurity}"
+
+    // persistence
+    compile("org.springframework.data:spring-data-jpa:${versions.springdatajpa}")
+    compile("org.hibernate:hibernate-core:${versions.hibernate}")
+    compile("org.hibernate:hibernate-entitymanager:${versions.hibernate}")
+    compile("org.hibernate:hibernate-validator:${versions.hibernateValidator}")
+
+    // db
+    compile("com.zaxxer:HikariCP:${versions.hikariCP}")
+    compile("com.h2database:h2:${versions.h2}")
+    compile("mysql:mysql-connector-java:${versions.mysqldriver}")
+
+    // aop
+    compile("org.aspectj:aspectjweaver:${versions.aspectjweaver}")
+
+    // cache
+    compile("net.sf.ehcache:ehcache-core:${versions.ehcacheCore}")
+
+    // util
+    compile("com.navercorp.lucy:lucy-xss:${versions.lucy}")
+    compile("org.sitemesh:sitemesh:${versions.sitemesh}")
+    compile("org.projectlombok:lombok:${versions.lombok}")
+
+    // test
+    testCompile("org.springframework:spring-test:${versions.spring}")
+    testCompile("junit:junit:${versions.junit}")
+    testCompile("com.github.springtestdbunit:spring-test-dbunit:${versions.springTestDbunit}")
+    testCompile ("org.dbunit:dbunit:${versions.dbunit}"){
+        exclude group: 'junit', module: 'junit'
+    }
+
+    //logging
+    compile("ch.qos.logback:logback-classic:${versions.logback}")
+
+    // cargo
+    def cargoVersion = '1.3.3'
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+            "org.codehaus.cargo:cargo-ant:$cargoVersion"
+}
